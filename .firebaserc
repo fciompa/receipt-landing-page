@@ -1,0 +1,12 @@
+{
+  "projects": {
+    "default": "euctenka"
+  },
+  "targets": {
+    "euctenka": {
+      "hosting": {
+        "landing": ["euctenka-landing"]
+      }
+    }
+  }
+}
