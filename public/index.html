@@ -54,7 +54,9 @@
 }
 
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; scroll-padding-top: calc(69px + env(safe-area-inset-top, 0px)); }
+/* Sections without top padding get extra room so menu jumps don't land flush under the header */
+#cena, #stahnout, #dotazy, #podpora { scroll-margin-top: 32px; }
 body { background: var(--bg); color: var(--ink); font: 400 17px/1.6 var(--body); margin: 0; }
 .wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; }
 h1, h2, h3 { font-family: var(--display); line-height: 1.08; text-wrap: balance; margin: 0; letter-spacing: -.02em; }
