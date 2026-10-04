@@ -104,7 +104,7 @@ section { padding-block: clamp(64px, 9vw, 112px); }
 .hero .wrap { display: grid; grid-template-columns: 1.15fr .85fr; gap: clamp(32px, 6vw, 80px); align-items: center; }
 .hero-copy { display: grid; gap: 26px; min-width: 0; }
 .deadline { display: inline-flex; align-items: center; gap: 10px; width: fit-content; background: var(--coral-soft); color: var(--coral); font-weight: 600; font-size: 14px; padding: 8px 14px 8px 10px; border-radius: 999px; }
-.deadline b { background: var(--coral); color: var(--paper); border-radius: 999px; padding: 3px 9px; font-variant-numeric: tabular-nums; }
+.deadline b { flex-shrink: 0; white-space: nowrap; background: var(--coral); color: var(--paper); border-radius: 999px; padding: 3px 9px; font-variant-numeric: tabular-nums; }
 h1 { font-size: clamp(42px, 6.6vw, 78px); font-weight: 800; }
 h1 em { font-style: normal; color: var(--teal); }
 .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; }
@@ -277,7 +277,7 @@ footer a:hover { color: var(--ink); }
   <section class="hero">
     <div class="wrap">
       <div class="hero-copy">
-        <span class="deadline"><b id="days">93 dní</b> do ostrého provozu EET 2.0 · 1. 1. 2027</span>
+        <span class="deadline"><b id="days">93 dní</b> do ostrého provozu EET&nbsp;2.0 · 1.&nbsp;1.&nbsp;2027</span>
         <h1><em>EET&nbsp;2.0</em> pokladna v telefonu a tabletu.</h1>
         <p class="lead">eÚčtenka je pokladna pro živnostníky, obchody, restaurace i stánky. Vystavíte účtenku, přijmete hotovost, kartu nebo QR platbu a tržbu odešlete do EET 2.0. Na Androidu i iPhonu, za 50 Kč měsíčně pro všechna vaše zařízení.</p>
         <div class="stores">
@@ -544,7 +544,7 @@ footer a:hover { color: var(--ink); }
   if (d > 4) el.textContent = d + ' dní';
   else if (d > 1) el.textContent = d + ' dny';
   else if (d === 1) el.textContent = '1 den';
-  else { el.textContent = 'Spuštěno'; el.parentNode.lastChild.textContent = ' ostrý provoz EET 2.0 běží od 1. 1. 2027'; }
+  else { el.textContent = 'Spuštěno'; el.parentNode.lastChild.textContent = ' ostrý provoz EET\u00a02.0 běží od 1.\u00a01.\u00a02027'; }
 })();
 
 (function () {
