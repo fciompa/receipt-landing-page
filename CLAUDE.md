@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Static landing page for eÚčtenka (a Czech point-of-sale app with EET 2.0 support), served at https://euctenka.cz. The site is one hand-written file, `public/index.html`, plus favicon files, the video poster, `robots.txt` and `sitemap.xml` next to it. There is no build step, package manifest, linter, or test suite: what is in `public/` is what gets served.
+Static landing page for eÚčtenka (a Czech point-of-sale app with EET 2.0 support), served at https://euctenka.cz. The site is hand-written files in `public/`: the landing page `index.html`, four content pages with their shared `pages.css` (see **Content pages**), favicon files, the video poster, `robots.txt` and `sitemap.xml`. There is no build step, package manifest, linter, or test suite: what is in `public/` is what gets served.
 
 ## Commands
 
@@ -29,7 +29,7 @@ The site is the `euctenka-landing` Hosting site inside the `euctenka` Firebase p
 - `cleanUrls` is on and `trailingSlash` is off, so `public/foo.html` is served at `/foo`.
 - HTML is cached for 5 minutes. Files matching `png|jpg|jpeg|webp|svg|ico|woff2|css|js` are served with `max-age=31536000, immutable`. This already applies to `favicon.ico`, `favicon.svg`, `apple-touch-icon.png` and `video-poster.jpg`: replacing one in place does not reach returning visitors, so change its URL (new filename or a query string) in the `<link>` tag as well. The same goes for any asset split out into its own file later.
 - Dotfiles under `public/` are not deployed.
-- `/doporucena-zarizeni` redirects to `/`. It was a page of the previous site on this domain and still has old links pointing at it. Remove the redirect if a real page takes that address.
+- `/doporucena-zarizeni` was a page of the previous site on this domain and still has old links pointing at it. It is a content page again, so keep that address.
 
 ## Search engines
 
@@ -62,12 +62,27 @@ Everything except the favicons and the video poster is inline: one `<style>` blo
 
 - page title: `<title>` and `og:title`
 - page description: `meta name="description"` and `og:description`
-- store links: hero, `#stahnout` and JSON-LD (`installUrl`)
-- portal link: nav, feature grid, footer
-- price: hero lead, `#cena` and JSON-LD (`offers`)
-- company name and address: footer and JSON-LD (`Organization`)
-- Facebook link: footer and JSON-LD (`sameAs`)
-- video poster address: `#video-player` style and `og:image`
-- EET 2.0 dates: hero badge, `#eet` section, and the countdown script (target date plus its own replacement text)
+- store links: hero, `#stahnout` and JSON-LD (`installUrl`); the download block of every content page and the first paragraph of `doporucena-zarizeni.html`
+- portal link: nav, feature grid, footer; nav and footer of every content page
+- price: hero lead, `#cena` and JSON-LD (`offers`); the table and `#cena` in `euctenka-a-moje-eet.html`
+- company name and address: footer and JSON-LD (`Organization`); footer of every content page
+- Facebook link: footer and JSON-LD (`sameAs`); footer of every content page
+- video poster address: `#video-player` style and `og:image`; `og:image` of every content page
+- EET 2.0 dates: hero badge, `#eet` section, and the countdown script (target date plus its own replacement text); `#terminy` and the steps in `eet-2-0.html`, and the MOJE eet launch date in `euctenka-a-moje-eet.html`
 
-Nav, footer and button links are in-page anchors to section ids (`#funkce`, `#eet`, `#cena`, `#stahnout`, `#dotazy`, `#podpora`), so renaming an id means updating those links and the `scroll-margin-top` rule.
+Nav, footer and button links are in-page anchors to section ids (`#funkce`, `#eet`, `#cena`, `#stahnout`, `#dotazy`, `#podpora`), so renaming an id means updating those links and the `scroll-margin-top` rule. The content pages link to the same ids as `/#funkce` and so on, in their nav, footer and text.
+
+## Content pages
+
+Four pages sit next to the landing page. It links to them from the footer, the "Pro koho" chips, the `#eet` lead, the printing feature and the last FAQ item:
+
+- `eet-2-0.html`: who EET 2.0 applies to, the dates and how to start
+- `pro-koho.html`: one section per business type. The chips on the landing page link to its section ids (`restaurace`, `kavarny`, `penziony`, `stanky`, `remeslnici`, `obchody`).
+- `doporucena-zarizeni.html`: phones, tablets, printers and payment terminals
+- `euctenka-a-moje-eet.html`: comparison with MOJE eet, the Financial Administration's free web app
+
+They have no script. Each one repeats by hand the landing page's head tags (with its own title, description and canonical), nav and footer, and adds a `BreadcrumbList` JSON-LD block, a "Další čtení" block linking the other three and a download block with the store links. A new page needs all of that, a sitemap entry and a link from the other pages.
+
+**`pages.css`.** The shared stylesheet. It repeats the palette (both dark copies), base rules, nav, buttons, store buttons and footer from the `<style>` block of `index.html`: change both together. It is cached for a year, so the pages link it as `/pages.css?v=1`. Once it is live, raise that number in all four pages with every change to the file. Under 640px a table stacks into one block per row and each cell takes its column name from `data-label`, so a new row needs the attribute on every cell.
+
+**Where the facts come from.** Everything about the law (who records, exemptions, EET OFF, dates, the tax discount, MOJE eet) is taken from the Financial Administration's site `https://eet.gov.cz` as it read on 5 October 2026. The two pages that depend on it most show that date in a "Stav k …" line under the heading: update the line when the text is re-checked. Everything about the app repeats the landing page, except "prodej použitého zboží" on `pro-koho.html`, which comes from the Google Play listing. The devices page names no printer models because none were confirmed. On the comparison page, state about MOJE eet only what `eet.gov.cz` says and mark the rest "neuvedeno"; the app is due on 1 December 2026 and the page needs a second look once it is out.
