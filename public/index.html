@@ -205,7 +205,8 @@ h1 em { font-style: normal; color: var(--teal); }
 .who { padding-block: 0 8px; }
 .who .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 12px; }
 .who .eyebrow { margin-right: 10px; color: var(--muted); }
-.chip { border: 1px solid var(--line); background: var(--surface); padding: 9px 16px; border-radius: 999px; font-size: 15px; font-weight: 500; }
+.chip { border: 1px solid var(--line); background: var(--surface); padding: 9px 16px; border-radius: 999px; font-size: 15px; font-weight: 500; text-decoration: none; }
+.chip:hover { border-color: var(--teal); }
 
 /* Sale modes */
 .modes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
@@ -310,7 +311,7 @@ h1 em { font-style: normal; color: var(--teal); }
 @media (max-width: 820px) { .support { grid-template-columns: 1fr; } }
 footer { padding-block: 40px 56px; color: var(--muted); font-size: 14px; }
 footer .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; border-top: 1px solid var(--line); padding-top: 28px; }
-footer nav { display: flex; flex-wrap: wrap; gap: 20px; }
+footer nav { display: flex; flex-wrap: wrap; gap: 12px 20px; }
 footer a { text-decoration: none; }
 footer a:hover { color: var(--ink); }
 
@@ -396,12 +397,12 @@ footer a:hover { color: var(--ink); }
   <div class="who">
     <div class="wrap">
       <span class="eyebrow">Pro koho</span>
-      <span class="chip">Hospody a restaurace</span>
-      <span class="chip">Kavárny a cukrárny</span>
-      <span class="chip">Penziony</span>
-      <span class="chip">Stánkový prodej</span>
-      <span class="chip">Řemeslníci a služby</span>
-      <span class="chip">Obchody a bazary</span>
+      <a class="chip" href="/pro-koho#restaurace">Hospody a restaurace</a>
+      <a class="chip" href="/pro-koho#kavarny">Kavárny a cukrárny</a>
+      <a class="chip" href="/pro-koho#penziony">Penziony</a>
+      <a class="chip" href="/pro-koho#stanky">Stánkový prodej</a>
+      <a class="chip" href="/pro-koho#remeslnici">Řemeslníci a služby</a>
+      <a class="chip" href="/pro-koho#obchody">Obchody a bazary</a>
     </div>
   </div>
 
@@ -469,7 +470,7 @@ footer a:hover { color: var(--ink); }
       <div class="sec-head" style="margin-bottom:0">
         <span class="eyebrow">Připraveno na EET 2.0</span>
         <h2>EET se vrací. Vy už jste připraveni.</h2>
-        <p class="lead">Od 1. ledna 2027 začíná běžný provoz EET 2.0. eÚčtenka ho umí už dnes. Od 1. listopadu 2026 si můžete vygenerovat ostrý certifikát a EET si v klidu vyzkoušet před Vánoci.</p>
+        <p class="lead">Od 1. ledna 2027 začíná běžný provoz EET 2.0. eÚčtenka ho umí už dnes. Od 1. listopadu 2026 si můžete vygenerovat ostrý certifikát a EET si v klidu vyzkoušet před Vánoci. <a href="/eet-2-0">Koho se EET&nbsp;2.0 týká a jak začít</a>.</p>
         <div class="modes-eet" aria-label="Režimy EET v aplikaci">
           <span>Vypnuto</span><span>Ověřovací</span><span class="on">Ostrý</span>
         </div>
@@ -501,7 +502,7 @@ footer a:hover { color: var(--ink); }
         </div>
         <div>
           <h3>Tiskne na to, co už máte</h3>
-          <p>Bluetooth, Wi-Fi a síťové tiskárny, USB, pokladny Sunmi, na iPhonu Bixolon. Účtenku můžete poslat i e-mailem, SMS nebo jako PDF. Umí otevřít pokladní zásuvku, odříznout papír a vytisknout cenu také v eurech.</p>
+          <p>Bluetooth, Wi-Fi a síťové tiskárny, USB, pokladny Sunmi, na iPhonu Bixolon. Účtenku můžete poslat i e-mailem, SMS nebo jako PDF. Umí otevřít pokladní zásuvku, odříznout papír a vytisknout cenu také v eurech. <a href="/doporucena-zarizeni">Doporučená zařízení</a>.</p>
           <div class="tags"><span>Bluetooth</span><span>Wi-Fi a síť</span><span>USB</span><span>Sunmi</span><span>Bixolon</span><span>E-mail</span><span>SMS</span><span>PDF</span></div>
         </div>
         <div>
@@ -572,6 +573,7 @@ footer a:hover { color: var(--ink); }
         <details><summary>Kolik zařízení můžu používat?</summary><p>Kolik chcete. Licence je na DIČ.</p></details>
         <details><summary>Můžu přejít na nový tablet?</summary><p>Ano. Přihlásíte se k licenci a data i certifikát se stáhnou z cloudu.</p></details>
         <details><summary>Potřebuji platební terminál?</summary><p>Ne. QR platby fungují bez terminálu, pro karty podporujeme SumUp.</p></details>
+        <details><summary>Čím se eÚčtenka liší od bezplatné aplikace MOJE eet?</summary><p>MOJE eet je webová aplikace Finanční správy pro malé podnikatele s nejvýše 2 evidenčními jednotkami. eÚčtenka je pokladna v telefonu a tabletu: tiskne účtenky, prodává i bez internetu a ukáže přehledy tržeb. <a href="/euctenka-a-moje-eet">Podrobné srovnání</a>.</p></details>
       </div>
     </div>
   </section>
@@ -597,7 +599,7 @@ footer a:hover { color: var(--ink); }
   <div class="wrap">
     <span>© 2026 Adam &amp; Adam s.r.o. · Provazníkova 7, 613 00 Brno · IČO 440 12 519<br>Zapsaná v obchodním rejstříku u Krajského soudu v Brně, oddíl C, vložka 2976.</span>
     <nav aria-label="Patička">
-      <a href="#funkce">Funkce</a><a href="#cena">Cena</a><a href="#dotazy">Dotazy</a><a href="https://euctenka.firebaseapp.com/" target="_blank" rel="noopener">Přihlásit se do portálu</a><a href="https://www.facebook.com/eUctenka" target="_blank" rel="noopener">Facebook</a><a href="https://ochrana-osobnich-udaju.web.app/" target="_blank" rel="noopener">Ochrana osobních údajů</a>
+      <a href="#funkce">Funkce</a><a href="#cena">Cena</a><a href="#dotazy">Dotazy</a><a href="/eet-2-0">EET 2.0 v kostce</a><a href="/pro-koho">Pro koho</a><a href="/doporucena-zarizeni">Doporučená zařízení</a><a href="/euctenka-a-moje-eet">MOJE eet, nebo eÚčtenka?</a><a href="https://euctenka.firebaseapp.com/" target="_blank" rel="noopener">Přihlásit se do portálu</a><a href="https://www.facebook.com/eUctenka" target="_blank" rel="noopener">Facebook</a><a href="https://ochrana-osobnich-udaju.web.app/" target="_blank" rel="noopener">Ochrana osobních údajů</a>
     </nav>
   </div>
 </footer>
