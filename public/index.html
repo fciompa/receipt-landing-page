@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>eÚčtenka EET 2.0</title>
 <meta name="description" content="Pokladna do mobilu a tabletu připravená na EET 2.0. Tiskne účtenky, eviduje tržby a odesílá je na finanční správu. Android i iOS.">
+<link rel="canonical" href="https://euctenka.cz/">
 <meta property="og:type" content="website">
+<meta property="og:url" content="https://euctenka.cz/">
 <meta property="og:locale" content="cs_CZ">
 <meta property="og:site_name" content="eÚčtenka">
 <meta property="og:title" content="eÚčtenka EET 2.0">
@@ -13,6 +15,63 @@
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://euctenka.cz/#website",
+      "url": "https://euctenka.cz/",
+      "name": "eÚčtenka",
+      "alternateName": "eUctenka",
+      "inLanguage": "cs",
+      "publisher": { "@id": "https://euctenka.cz/#organization" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://euctenka.cz/#organization",
+      "name": "Adam & Adam s.r.o.",
+      "url": "https://euctenka.cz/",
+      "logo": "https://euctenka.cz/apple-touch-icon.png",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Provazníkova 7",
+        "postalCode": "613 00",
+        "addressLocality": "Brno",
+        "addressCountry": "CZ"
+      },
+      "sameAs": ["https://www.facebook.com/eUctenka"]
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": "https://euctenka.cz/#app",
+      "name": "eÚčtenka",
+      "url": "https://euctenka.cz/",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Android, iOS",
+      "inLanguage": "cs",
+      "installUrl": [
+        "https://play.google.com/store/apps/details?id=cz.adamadam.receipt",
+        "https://apps.apple.com/cz/app/id6782123699"
+      ],
+      "publisher": { "@id": "https://euctenka.cz/#organization" },
+      "offers": {
+        "@type": "Offer",
+        "price": "50",
+        "priceCurrency": "CZK",
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "price": "50",
+          "priceCurrency": "CZK",
+          "valueAddedTaxIncluded": false,
+          "billingDuration": "P1M"
+        }
+      }
+    }
+  ]
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
