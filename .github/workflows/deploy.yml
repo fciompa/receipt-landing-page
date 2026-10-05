@@ -26,3 +26,13 @@ jobs:
           # Pushes to main go live; pull requests get a temporary preview URL.
           channelId: ${{ github.event_name == 'push' && 'live' || '' }}
           expires: 7d
+      # Tell Seznam the live pages changed so it re-crawls them (IndexNow).
+      # The key is public by design: it is the name and content of public/<key>.txt.
+      - name: Notify Seznam
+        if: github.event_name == 'push'
+        continue-on-error: true
+        run: |
+          urls=$(grep -o '<loc>[^<]*' public/sitemap.xml | sed 's/<loc>//' | jq -R . | jq -sc .)
+          curl -fsS -X POST https://search.seznam.cz/indexnow \
+            -H 'Content-Type: application/json; charset=utf-8' \
+            -d "{\"host\":\"euctenka.cz\",\"key\":\"fab069ba9bb6178ff3957c057a639ac9\",\"urlList\":$urls}"
