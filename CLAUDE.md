@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Static landing page for eÚčtenka (a Czech point-of-sale app with EET 2.0 support), served at https://euctenka.cz. The site is one hand-written file, `public/index.html`, plus favicon files next to it. There is no build step, package manifest, linter, or test suite: what is in `public/` is what gets served.
+Static landing page for eÚčtenka (a Czech point-of-sale app with EET 2.0 support), served at https://euctenka.cz. The site is one hand-written file, `public/index.html`, plus favicon files, `robots.txt` and `sitemap.xml` next to it. There is no build step, package manifest, linter, or test suite: what is in `public/` is what gets served.
 
 ## Commands
 
@@ -29,6 +29,13 @@ The site is the `euctenka-landing` Hosting site inside the `euctenka` Firebase p
 - `cleanUrls` is on and `trailingSlash` is off, so `public/foo.html` is served at `/foo`.
 - HTML is cached for 5 minutes. Files matching `png|jpg|jpeg|webp|svg|ico|woff2|css|js` are served with `max-age=31536000, immutable`. This already applies to `favicon.ico`, `favicon.svg` and `apple-touch-icon.png`: replacing one in place does not reach returning visitors, so change its URL (new filename or a query string) in the `<link>` tag as well. The same goes for any asset split out into its own file later.
 - Dotfiles under `public/` are not deployed.
+- `/doporucena-zarizeni` redirects to `/`. It was a page of the previous site on this domain and still has old links pointing at it. Remove the redirect if a real page takes that address.
+
+## Search engines
+
+- The same files are also reachable at `euctenka-landing.web.app`, `euctenka-landing.firebaseapp.com` and the pull request preview URLs. `<link rel="canonical">` in `index.html` is what tells search engines that `https://euctenka.cz/` is the one to index, so every page needs its own canonical tag with the full `https://euctenka.cz/…` address.
+- `public/sitemap.xml` lists the pages to index and `public/robots.txt` points at it. A new page needs adding to the sitemap.
+- The JSON-LD block in the head of `index.html` describes the site, the company and the app for search engines. It repeats facts from the page (see **Content** below) and must not state anything the visible page does not. The Google Play rating is left out on purpose: Google does not accept ratings copied from another site.
 
 ## `public/index.html`
 
@@ -52,9 +59,11 @@ Everything except the favicons is inline: one `<style>` block in the head, the m
 
 - page title: `<title>` and `og:title`
 - page description: `meta name="description"` and `og:description`
-- store links: hero and `#stahnout`
+- store links: hero, `#stahnout` and JSON-LD (`installUrl`)
 - portal link: nav, feature grid, footer
-- price: hero lead and `#cena`
+- price: hero lead, `#cena` and JSON-LD (`offers`)
+- company name and address: footer and JSON-LD (`Organization`)
+- Facebook link: footer and JSON-LD (`sameAs`)
 - EET 2.0 dates: hero badge, `#eet` section, and the countdown script (target date plus its own replacement text)
 
 Nav, footer and button links are in-page anchors to section ids (`#funkce`, `#eet`, `#cena`, `#stahnout`, `#dotazy`, `#podpora`), so renaming an id means updating those links and the `scroll-margin-top` rule.

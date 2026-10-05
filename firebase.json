@@ -5,6 +5,9 @@
     "cleanUrls": true,
     "trailingSlash": false,
     "ignore": ["firebase.json", "**/.*"],
+    "redirects": [
+      { "source": "/doporucena-zarizeni", "destination": "/", "type": 301 }
+    ],
     "headers": [
       {
         "source": "**/*.@(html)",
