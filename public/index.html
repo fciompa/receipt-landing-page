@@ -124,7 +124,7 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: calc(69px + env(safe-area-inset-top, 0px)); }
 /* Sections without top padding get extra room so menu jumps don't land flush under the header */
-#cena, #stahnout, #dotazy, #podpora { scroll-margin-top: 32px; }
+#stahnout, #dotazy, #podpora { scroll-margin-top: 32px; }
 body { background: var(--bg); color: var(--ink); font: 400 17px/1.6 var(--body); margin: 0; }
 .wrap { max-width: 1120px; margin: 0 auto; padding-inline: 20px; }
 h1, h2, h3 { font-family: var(--display); line-height: 1.08; text-wrap: balance; margin: 0; letter-spacing: -.02em; }
@@ -287,9 +287,40 @@ h1 em { font-style: normal; color: var(--teal); }
 @media (max-width: 820px) { .video-grid { grid-template-columns: 1fr; } }
 
 /* Experience (EET since the first wave) */
-.exp { padding-block: clamp(48px, 7vw, 80px); background: var(--surface); border-block: 1px solid var(--line); margin-top: clamp(40px, 6vw, 64px); }
+.exp { padding-block: clamp(48px, 7vw, 80px); border-block: 1px solid var(--line); margin-top: clamp(40px, 6vw, 64px); }
 .exp .sec-head { margin-bottom: 0; }
+#cena { background: var(--surface); border-top: 1px solid var(--line); margin-top: clamp(40px, 6vw, 64px); }
+#cena + .exp { margin-top: 0; } /* Cena sits right above: its own padding already spaces the band */
 
+/* IČO licence strip at the end of Cena: three device setups in one row, each the same price */
+.ico-strip { margin-top: clamp(32px, 5vw, 56px); display: grid; grid-template-columns: auto repeat(3, minmax(0, 1fr)); align-items: stretch; gap: 12px; color: var(--teal-deep); }
+.ico-firm { display: grid; align-content: center; justify-items: center; background: var(--teal-soft); border-radius: 14px; padding: 10px 18px; text-align: center; }
+.ico-firm small { font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+.ico-firm b { font: 700 17px/1.3 var(--display); color: var(--ink); }
+.ico-opt { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "d p" "w p"; align-items: center; column-gap: 12px; row-gap: 4px; background: var(--bg); border: 1px solid var(--line); border-radius: 14px; padding: 12px 18px; }
+.ico-devs { grid-area: d; display: flex; gap: 6px; align-items: end; }
+.ico-what { grid-area: w; color: var(--muted); font-size: 14px; }
+.ico-opt b { grid-area: p; font: 800 24px/1 var(--display); letter-spacing: -.02em; white-space: nowrap; }
+.ico-strip .ic-p { width: 14px; height: 22px; flex: none; }
+.ico-strip .ic-t { width: 30px; height: 22px; flex: none; }
+@media (max-width: 900px) { .ico-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); } .ico-firm { grid-column: 1 / -1; } }
+@media (max-width: 600px) { .ico-strip { grid-template-columns: 1fr; } }
+/* Two firms graphic (right column): one phone, two installs, each with its own IČO licence */
+.firm-strip { display: grid; gap: 12px; color: var(--teal-deep); background: var(--teal-soft); border-radius: 18px; padding: 16px; }
+.fs-dev { display: flex; align-items: center; gap: 12px; padding: 2px 4px 4px; }
+.fs-dev span { display: grid; }
+.fs-dev small { font-size: 12px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+.fs-dev b { font: 700 17px/1.3 var(--display); color: var(--ink); }
+.fs-phone { width: 18px; height: 28px; flex: none; }
+.fs-opt { display: flex; align-items: center; gap: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px 18px; }
+.fs-app { width: 34px; height: 34px; flex: none; display: grid; place-items: center; border-radius: 9px; background: var(--teal); color: var(--on-teal); font: 800 14px/1 var(--display); }
+.fs-what { display: grid; flex: 1; min-width: 0; }
+.fs-what b { font-weight: 600; color: var(--ink); }
+.fs-what small { color: var(--muted); font-size: 14px; }
+.fs-price { font: 800 24px/1 var(--display); letter-spacing: -.02em; white-space: nowrap; }
+/* Two firms */
+.firms { padding-block: clamp(48px, 7vw, 80px); background: var(--surface); border-bottom: 1px solid var(--line); }
+.exp .lead a, .firms .lead a { color: var(--teal-deep); font-weight: 600; }
 /* FAQ */
 .faq { display: grid; gap: 10px; max-width: 820px; }
 .faq details { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 0 22px; }
@@ -323,9 +354,9 @@ footer a:hover { color: var(--ink); }
   <div class="wrap">
     <a class="logo" href="#top"><span>e</span>Účtenka</a>
     <nav class="nav-links" aria-label="Hlavní menu">
+      <a href="#cena">Cena</a>
       <a href="#funkce">Funkce</a>
       <a href="#eet">EET 2.0</a>
-      <a href="#cena">Cena</a>
       <a href="#dotazy">Dotazy</a>
       <a href="#podpora">Podpora</a>
     </nav>
@@ -405,12 +436,57 @@ footer a:hover { color: var(--ink); }
     </div>
   </div>
 
+  <section id="cena">
+    <div class="wrap price-wrap">
+      <div class="sec-head" style="margin-bottom:0">
+        <span class="eyebrow">Cena</span>
+        <h2>Jedna cena. Všechno v&nbsp;ceně.</h2>
+        <p class="lead">Bez registrace si aplikaci vyzkoušíte na ukázkových datech. Po registraci máte měsíc na ostrý provoz, než zaplatíte první fakturu. Když vám aplikace nesedne, fakturu neplatíte.</p>
+        <p class="lead">V ceně je EET 2.0, průběžné aktualizace, záloha dat v cloudu, webový přístup z počítače a podpora po telefonu i e-mailu.</p>
+      </div>
+      <div class="price">
+        <div class="amount"><b>100&nbsp;Kč</b><span>měsíčně + DPH (121&nbsp;Kč s&nbsp;DPH)</span></div>
+        <ul>
+          <li>Licence se platí na IČO.</li>
+          <li>Bez ohledu na počet používaných zařízení (telefon, tablet).</li>
+          <li>Platíte jednou ročně.</li>
+        </ul>
+        <a class="btn btn-primary" href="#stahnout" style="justify-self:start">Vyzkoušet zdarma</a>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="ico-strip" role="img" aria-label="Telefon, telefon a tablet i telefon a tři tablety stojí stejně: 100 Kč měsíčně za jedno IČO">
+        <div class="ico-firm"><small>Jedno IČO</small><b>stejná cena</b></div>
+        <div class="ico-opt"><span class="ico-devs"><svg class="ic-p" viewBox="0 0 16 24" aria-hidden="true"><rect x="1" y="1" width="14" height="22" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><line x1="6" y1="19.5" x2="10" y2="19.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span><span class="ico-what">telefon</span><b>100&nbsp;Kč</b></div>
+        <div class="ico-opt"><span class="ico-devs"><svg class="ic-p" viewBox="0 0 16 24" aria-hidden="true"><rect x="1" y="1" width="14" height="22" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><line x1="6" y1="19.5" x2="10" y2="19.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><svg class="ic-t" viewBox="0 0 34 24" aria-hidden="true"><rect x="1" y="1" width="32" height="22" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="29" cy="12" r="1.2" fill="currentColor"/></svg></span><span class="ico-what">telefon a tablet</span><b>100&nbsp;Kč</b></div>
+        <div class="ico-opt"><span class="ico-devs"><svg class="ic-p" viewBox="0 0 16 24" aria-hidden="true"><rect x="1" y="1" width="14" height="22" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><line x1="6" y1="19.5" x2="10" y2="19.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><svg class="ic-t" viewBox="0 0 34 24" aria-hidden="true"><rect x="1" y="1" width="32" height="22" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="29" cy="12" r="1.2" fill="currentColor"/></svg><svg class="ic-t" viewBox="0 0 34 24" aria-hidden="true"><rect x="1" y="1" width="32" height="22" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="29" cy="12" r="1.2" fill="currentColor"/></svg><svg class="ic-t" viewBox="0 0 34 24" aria-hidden="true"><rect x="1" y="1" width="32" height="22" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="29" cy="12" r="1.2" fill="currentColor"/></svg></span><span class="ico-what">telefon a 3 tablety</span><b>100&nbsp;Kč</b></div>
+      </div>
+    </div>
+  </section>
+
   <section class="exp" id="zkusenost">
     <div class="wrap">
       <div class="sec-head">
         <span class="eyebrow">Zkušenost, na kterou můžete navázat</span>
         <h2>EET známe už od první vlny.</h2>
         <p class="lead">S elektronickou evidencí tržeb máme zkušenosti od její první vlny v roce 2016. eÚčtenku jsme od té doby rozvíjeli a dnešní verzi připravili pro EET 2.0.</p>
+        <p class="lead">Nejste si jisti, jak na EET? <a href="#podpora">Ozvěte se nám.</a> Poradíme, co a jak.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="firms" id="dve-firmy">
+    <div class="wrap price-wrap">
+      <div class="sec-head" style="margin-bottom:0">
+        <span class="eyebrow">Jedno zařízení, dvě firmy</span>
+        <h2>Máte dvě firmy?</h2>
+        <p class="lead">V jednom telefonu s Androidem můžete mít eÚčtenku nainstalovanou dvakrát. Jedna instalace pro jednu firmu.</p>
+        <p class="lead"><a href="#podpora">Ozvěte se nám</a> a ukážeme vám, jak na to.</p>
+      </div>
+      <div class="firm-strip" role="img" aria-label="Jeden telefon s Androidem, dvě instalace eÚčtenky, každá pro jednu firmu s vlastním IČO za 100 Kč">
+        <div class="fs-dev"><svg class="fs-phone" viewBox="0 0 16 24" aria-hidden="true"><rect x="1" y="1" width="14" height="22" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><line x1="6" y1="19.5" x2="10" y2="19.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span><small>Jeden telefon</small><b>s Androidem</b></span></div>
+        <div class="fs-opt"><span class="fs-app" aria-hidden="true">e1</span><span class="fs-what"><b>Firma A · IČO</b><small>1. instalace eÚčtenky</small></span><b class="fs-price">100&nbsp;Kč</b></div>
+        <div class="fs-opt"><span class="fs-app" aria-hidden="true">e2</span><span class="fs-what"><b>Firma B · IČO</b><small>2. instalace eÚčtenky</small></span><b class="fs-price">100&nbsp;Kč</b></div>
       </div>
     </div>
   </section>
@@ -521,27 +597,6 @@ footer a:hover { color: var(--ink); }
     </div>
   </section>
 
-  <section id="cena" style="padding-top:0">
-    <div class="wrap price-wrap">
-      <div class="sec-head" style="margin-bottom:0">
-        <span class="eyebrow">Cena</span>
-        <h2>Jedna cena. Všechno v&nbsp;ceně.</h2>
-        <p class="lead">Bez registrace si aplikaci vyzkoušíte na ukázkových datech. Po registraci máte měsíc na ostrý provoz, než zaplatíte první fakturu. Když vám aplikace nesedne, fakturu neplatíte.</p>
-      </div>
-      <div class="price">
-        <div class="amount"><b>100&nbsp;Kč</b><span>měsíčně + DPH (121&nbsp;Kč s&nbsp;DPH)</span></div>
-        <p class="note">Platíte jednou ročně. V ceně je:</p>
-        <ul>
-          <li>neomezený počet zařízení</li>
-          <li>EET 2.0 a průběžné aktualizace</li>
-          <li>záloha dat v cloudu a webový přístup z počítače</li>
-          <li>podpora po telefonu i e-mailu</li>
-        </ul>
-        <a class="btn btn-primary" href="#stahnout" style="justify-self:start">Vyzkoušet zdarma</a>
-      </div>
-    </div>
-  </section>
-
   <section id="stahnout" style="padding-top:0">
     <div class="wrap">
       <div class="download">
@@ -597,7 +652,7 @@ footer a:hover { color: var(--ink); }
   <div class="wrap">
     <span>© 2026 Adam &amp; Adam s.r.o. · Provazníkova 7, 613 00 Brno · IČO 440 12 519<br>Zapsaná v obchodním rejstříku u Krajského soudu v Brně, oddíl C, vložka 2976.</span>
     <nav aria-label="Patička">
-      <a href="#funkce">Funkce</a><a href="#cena">Cena</a><a href="#dotazy">Dotazy</a><a href="https://euctenka.firebaseapp.com/" target="_blank" rel="noopener">Přihlásit se do portálu</a><a href="https://www.facebook.com/eUctenka" target="_blank" rel="noopener">Facebook</a><a href="https://ochrana-osobnich-udaju.web.app/" target="_blank" rel="noopener">Ochrana osobních údajů</a>
+      <a href="#cena">Cena</a><a href="#funkce">Funkce</a><a href="#dotazy">Dotazy</a><a href="https://euctenka.firebaseapp.com/" target="_blank" rel="noopener">Přihlásit se do portálu</a><a href="https://www.facebook.com/eUctenka" target="_blank" rel="noopener">Facebook</a><a href="https://ochrana-osobnich-udaju.web.app/" target="_blank" rel="noopener">Ochrana osobních údajů</a>
     </nav>
   </div>
 </footer>
