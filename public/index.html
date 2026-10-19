@@ -195,11 +195,11 @@ h1 em { font-style: normal; color: var(--teal); }
 .r-hr { border: 0; border-top: 1.5px dashed #9aa5a3; margin: 10px 0; }
 .r-small { font-size: 10.5px; color: #4f5a58; word-break: break-all; }
 .r-total { font-size: 16px; font-weight: 600; }
-.fik-chip { position: absolute; right: max(0px, calc(50% - 230px)); bottom: 70px; z-index: 3; display: flex; gap: 10px; align-items: center; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; box-shadow: var(--shadow); font-size: 14px; animation: pop .4s ease-out 3s both; }
-.fik-chip i { width: 28px; height: 28px; border-radius: 50%; background: var(--teal); color: var(--on-teal); display: grid; place-items: center; font-style: normal; font-weight: 700; }
-.fik-chip small { display: block; color: var(--muted); font-size: 12px; }
+.pok-chip { position: absolute; right: max(0px, calc(50% - 230px)); bottom: 70px; z-index: 3; display: flex; gap: 10px; align-items: center; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 14px; padding: 12px 16px; box-shadow: var(--shadow); font-size: 14px; animation: pop .4s ease-out 3s both; }
+.pok-chip i { width: 28px; height: 28px; border-radius: 50%; background: var(--teal); color: var(--on-teal); display: grid; place-items: center; font-style: normal; font-weight: 700; }
+.pok-chip small { display: block; color: var(--muted); font-size: 12px; }
 @keyframes pop { from { opacity: .0; transform: translateY(8px) scale(.96); } to { opacity: 1; transform: none; } }
-@media (max-width: 880px) { .hero .wrap { grid-template-columns: 1fr; } .fik-chip { right: 0; bottom: 24px; } }
+@media (max-width: 880px) { .hero .wrap { grid-template-columns: 1fr; } .pok-chip { right: 0; bottom: 24px; } }
 
 /* Who */
 .who { padding-block: 0 8px; }
@@ -413,14 +413,12 @@ footer a:hover { color: var(--ink); }
             <div class="r-row r-small"><span>12 %</span><span>280,36</span><span>33,64</span></div>
             <hr class="r-hr">
             <div class="r-small">Provozovna: 11 · Pokladna: P01</div>
-            <div class="r-small">Režim tržby: běžný</div>
-            <div class="r-small">BKP: 3F9A12C4-7D0E88B1-51C2A6F0-9E4D3B27-A1C8F605</div>
-            <div class="r-small">FIK: b3a09b52-7c87-4014-a496-4c7a53cf9125-ff</div>
+            <div class="r-small">POK:<br>b3a09b52-7c87-4014-a496-4c7a53cf9125-03</div>
             <hr class="r-hr">
             <div class="r-c">Děkujeme a přijďte zas!</div>
           </div>
         </div>
-        <div class="fik-chip" role="status"><i>✓</i><div>Tržba zaevidována<small>FIK přijat za 0,4 s</small></div></div>
+        <div class="pok-chip" role="status"><i>✓</i><div>Tržba zaevidována<small>POK přijat za 0,4 s</small></div></div>
       </div>
     </div>
   </section>
