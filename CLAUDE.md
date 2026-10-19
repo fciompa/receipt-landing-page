@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Static landing page for eÚčtenka (a Czech point-of-sale app with EET 2.0 support), served at https://euctenka.cz. The site is hand-written files in `public/`: the landing page `index.html`, four content pages with their shared `pages.css` (see **Content pages**), the `404.html` error page, favicon files, the video poster, `robots.txt` and `sitemap.xml`. There is no build step, package manifest, linter, or test suite: what is in `public/` is what gets served.
+Static landing page for eÚčtenka (a Czech point-of-sale app with EET 2.0 support), served at https://euctenka.cz. The site is hand-written files in `public/`: the landing page `index.html`, four content pages with their shared `pages.css` (see **Content pages**), the `404.html` error page, favicon files, the video poster, `robots.txt`, `sitemap.xml` and two ownership files for search engines (see **Search engines**). There is no build step, package manifest, linter, or test suite: what is in `public/` is what gets served.
 
 ## Commands
 
@@ -39,6 +39,7 @@ The site is the `euctenka-landing` Hosting site inside the `euctenka` Firebase p
 - `public/sitemap.xml` lists the pages to index and `public/robots.txt` points at it. A new page needs adding to the sitemap.
 - After every live deploy the workflow sends the sitemap addresses through IndexNow to Seznam (`https://search.seznam.cz/indexnow`) and Bing (`https://www.bing.com/indexnow`), which asks them to re-crawl them. Bing is notified directly because it never received the pings sent only to Seznam: until October 2026 it had no page of the site at all. `public/fab069ba9bb6178ff3957c057a639ac9.txt` is the IndexNow key file that proves the request comes from the site owner: its name and content are the key, and the same key is written in the workflow step. Do not delete or rename it without changing the workflow. A failed notification does not fail the deploy.
 - Seznam Webmaster (`https://reporter.seznam.cz/wm`) shows what Seznam has crawled and indexed. It verifies ownership through the `<meta name="seznam-wmt" content="…">` tag in the head of `index.html` and re-checks it regularly, so the tag has to stay. It must be in the markup itself: Seznam ignores a tag added by script.
+- Bing Webmaster Tools (`https://www.bing.com/webmasters`) shows what Bing has crawled and indexed. It verifies ownership through `public/BingSiteAuth.xml`, the file it generated for the account, served at `https://euctenka.cz/BingSiteAuth.xml`. Bing re-checks it, so keep the file and its name unchanged.
 - `og:image` is the picture shown when the link is shared. It is the video poster, `public/video-poster.jpg`, and has to be a full `https://euctenka.cz/…` address. The `og:image:width` and `og:image:height` tags must match the file (1024×500). Facebook keeps its own copy of the preview, so after changing the picture, title or description, press "Scrape Again" for the page in Facebook's Sharing Debugger.
 - The JSON-LD block in the head of `index.html` describes the site, the company and the app for search engines. It repeats facts from the page (see **Content** below) and must not state anything the visible page does not. The Google Play rating is left out on purpose: Google does not accept ratings copied from another site.
 
