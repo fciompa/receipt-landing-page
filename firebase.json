@@ -7,7 +7,7 @@
     "ignore": ["firebase.json", "**/.*"],
     "headers": [
       {
-        "source": "**/*.@(html)",
+        "regex": "^/[^.]*$",
         "headers": [{ "key": "Cache-Control", "value": "public, max-age=300" }]
       },
       {
