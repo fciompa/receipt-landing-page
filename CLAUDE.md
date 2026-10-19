@@ -30,6 +30,7 @@ The site is the `euctenka-landing` Hosting site inside the `euctenka` Firebase p
 - HTML is cached for 5 minutes. Header rules match the address that was requested, not the file that answers it, and with `cleanUrls` pages are requested without `.html`, so the HTML rule is the regex `^/[^.]*$` (any address without a dot). Without a matching rule Firebase sends its default `max-age=3600`, which is also what `robots.txt`, `sitemap.xml` and the IndexNow key file get. Files matching `png|jpg|jpeg|webp|svg|ico|woff2|css|js` are served with `max-age=31536000, immutable`. This already applies to `favicon.ico`, `favicon.svg`, `apple-touch-icon.png` and `video-poster.jpg`: replacing one in place does not reach returning visitors, so change its URL (new filename or a query string) in the `<link>` tag as well. The same goes for any asset split out into its own file later.
 - Dotfiles under `public/` are not deployed.
 - `/doporucena-zarizeni` was a page of the previous site on this domain and still has old links pointing at it. It is a content page again, so keep that address.
+- A redirect from an address that may get its own page again must use `"type": 302`. Browsers keep a 301 and stop asking the server: from 5 to 19 October 2026 `/doporucena-zarizeni` was a 301 to `/`, and browsers that followed it kept showing the home page after the content page went live.
 - Firebase serves `public/404.html` with status 404 for any address that has no file. It is built like the content pages (nav, footer, `pages.css`) and links to the home page, the four content pages and `/#podpora`. It has `noindex` and no canonical, description, share tags or structured data, and it stays out of the sitemap. Its links and stylesheet use absolute `/…` paths because it can be served at any depth.
 
 ## Search engines
@@ -46,6 +47,8 @@ The site is the `euctenka-landing` Hosting site inside the `euctenka` Firebase p
 Everything except the favicons and the video poster is inline: one `<style>` block in the head, the markup, and one `<script>` block at the end of the body. Icons are inline SVG. The only third-party requests are Google Fonts on load and YouTube after a click.
 
 **Video poster.** The poster is `public/video-poster.jpg`, set as a `background-image` in the inline `style` of the `#video-player` link. Keep it on the link rather than in the `.video` rule: after a click the script replaces the link with a new `div.video` that holds the player, and the poster must not show behind it. The same file is the `og:image`. To replace the picture, save it under a new filename and update both places, because the old name is cached for a year. When the page is opened outside the site (from disk, or in the mockup viewer) the file is not found and the box shows the plain band colour.
+
+**Sample receipt.** The receipt in the hero follows EET 2.0, not the first EET: the code the Financial Administration returns is the POK (potvrzovací kód), 39 characters in the format of the old FIK, and there is no FIK, BKP, PKP or "režim tržby". A POK ending in `ff` comes from the test environment and is not valid, so the sample uses the production example from the official "Popis položek datové zprávy" (ending `-03`). The confirmation chip next to the receipt (`.pok-chip`) uses the same term.
 
 **Theming.** Colours, fonts and the corner radius are CSS custom properties on `:root`. The dark palette is written out twice: under `@media (prefers-color-scheme: dark)` for `:root:not([data-theme="light"])`, and again for `:root[data-theme="dark"]`. Change both copies together. `--paper` and `--paper-ink` (the receipt) keep light paper colours in the dark palette.
 
@@ -66,6 +69,7 @@ Everything except the favicons and the video poster is inline: one `<style>` blo
 - store links: hero, `#stahnout` and JSON-LD (`installUrl`); the download block of every content page and the first paragraph of `doporucena-zarizeni.html`
 - portal link: nav, feature grid, footer; nav and footer of every content page and `404.html`
 - price: hero lead, `#cena` and JSON-LD (`offers`); the table and `#cena` in `euctenka-a-moje-eet.html`
+- licence per IČO, not per DIČ: `#cena`, the two-firms section, the licence feature and the FAQ; `doporucena-zarizeni.html`, `pro-koho.html`, and the table and "Kdy se vyplatí" list in `euctenka-a-moje-eet.html`
 - company name and address: footer and JSON-LD (`Organization`); footer of every content page and `404.html`
 - Facebook link: footer and JSON-LD (`sameAs`); footer of every content page and `404.html`
 - video poster address: `#video-player` style and `og:image`; `og:image` of every content page
