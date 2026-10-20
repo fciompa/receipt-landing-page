@@ -36,13 +36,13 @@ The site is the `euctenka-landing` Hosting site inside the `euctenka` Firebase p
 ## Search engines
 
 - The same files are also reachable at `euctenka-landing.web.app`, `euctenka-landing.firebaseapp.com` and the pull request preview URLs. `<link rel="canonical">` in `index.html` is what tells search engines that `https://euctenka.cz/` is the one to index, so every page needs its own canonical tag with the full `https://euctenka.cz/…` address.
-- `public/sitemap.xml` lists the pages to index and `public/robots.txt` points at it. A new page needs adding to the sitemap.
+- `public/sitemap.xml` lists the pages to index and `public/robots.txt` points at it. A new page needs adding to the sitemap. Each entry has a `<lastmod>` date: set it to the day of the change whenever the visible content of that page changes, but not for changes to markup or styles alone.
 - After every live deploy the workflow sends the sitemap addresses through IndexNow to Seznam (`https://search.seznam.cz/indexnow`) and Bing (`https://www.bing.com/indexnow`), which asks them to re-crawl them. Bing is notified directly because it never received the pings sent only to Seznam: until October 2026 it had no page of the site at all. `public/fab069ba9bb6178ff3957c057a639ac9.txt` is the IndexNow key file that proves the request comes from the site owner: its name and content are the key, and the same key is written in the workflow step. Do not delete or rename it without changing the workflow. A failed notification does not fail the deploy.
 - Seznam Webmaster (`https://reporter.seznam.cz/wm`) shows what Seznam has crawled and indexed. It verifies ownership through the `<meta name="seznam-wmt" content="…">` tag in the head of `index.html` and re-checks it regularly, so the tag has to stay. It must be in the markup itself: Seznam ignores a tag added by script.
 - Bing Webmaster Tools (`https://www.bing.com/webmasters`) shows what Bing has crawled and indexed. It verifies ownership through `public/BingSiteAuth.xml`, the file it generated for the account, served at `https://euctenka.cz/BingSiteAuth.xml`. Bing re-checks it, so keep the file and its name unchanged.
 - Google Search Console (`https://search.google.com/search-console?resource_id=sc-domain%3Aeuctenka.cz`) shows what Google has crawled and indexed. It is a domain property, so it covers http and https, with and without `www`. It verifies ownership through a `google-site-verification=…` TXT record in the DNS of `euctenka.cz`, not through a file or tag in `public/`, so nothing in this repository shows it exists. Google re-checks the record: keep it when changing DNS. The sitemap is submitted there. The Pages report runs several days behind, so use URL inspection to see whether a new page is indexed yet.
 - `og:image` is the picture shown when the link is shared. It is the video poster, `public/video-poster.jpg`, and has to be a full `https://euctenka.cz/…` address. The `og:image:width` and `og:image:height` tags must match the file (1024×500). Facebook keeps its own copy of the preview, so after changing the picture, title or description, press "Scrape Again" for the page in Facebook's Sharing Debugger.
-- The JSON-LD block in the head of `index.html` describes the site, the company and the app for search engines. It repeats facts from the page (see **Content** below) and must not state anything the visible page does not. The Google Play rating is left out on purpose: Google does not accept ratings copied from another site.
+- The JSON-LD block in the head of `index.html` describes the site, the company and the app for search engines. It repeats facts from the page (see **Content** below) and must not state anything the visible page does not. The Google Play rating is left out on purpose: Google does not accept ratings copied from another site. Its `FAQPage` entry repeats the questions and answers of `#dotazy` word for word, in the same order, as plain text without links.
 
 ## `public/index.html`
 
@@ -64,14 +64,15 @@ Everything except the favicons and the video poster is inline: one `<style>` blo
 
 **Contact details are obfuscated on purpose.** The support e-mail and phone number never appear in plain form in the source, to keep them away from address harvesters. `#mail` holds the two halves of the address reversed in `data-u` and `data-d`, `#tel` holds the nine-digit number reversed in `data-p`, and the script turns them into `mailto:` and `tel:+420…` links in the browser. The element text is the no-JS fallback. To change either one, store the new value reversed. Do not write the plain address or number anywhere in the page (markup, meta tags, structured data).
 
-**Content.** Copy is Czech (`lang="cs"`). Keep new text in Czech and keep the existing `&nbsp;` joins. Several facts are repeated and need updating in every place:
+**Content.** Copy is Czech (`lang="cs"`). Keep new text in Czech and keep the existing `&nbsp;` joins. The title, description, h1, the `#stahnout` lead and the first FAQ items say "aplikace na EET" and "v mobilu" on purpose: people search for "eet v mobilu", "aplikace eet" and "eet do mobilu" (Google Search Console, October 2026), not for "pokladna v telefonu". Keep those words when rewording. Several facts are repeated and need updating in every place:
 
 - page title: `<title>` and `og:title`
+- FAQ: the `<details>` items in `#dotazy` and the `FAQPage` entry in JSON-LD
 - page description: `meta name="description"` and `og:description`
 - store links: hero, `#stahnout` and JSON-LD (`installUrl`); the download block of every content page and the first paragraph of `doporucena-zarizeni.html`
 - portal link: nav, feature grid, footer; nav and footer of every content page and `404.html`
 - price: hero lead, `#cena` and JSON-LD (`offers`); the table and `#cena` in `euctenka-a-moje-eet.html`
-- licence per IČO, not per DIČ: `#cena`, the two-firms section, the licence feature and the FAQ; `doporucena-zarizeni.html`, `pro-koho.html`, and the table and "Kdy se vyplatí" list in `euctenka-a-moje-eet.html`
+- licence per IČO, not per DIČ: `#cena`, the two-firms section, the licence feature and the FAQ (with its `FAQPage` copy); `doporucena-zarizeni.html`, `pro-koho.html`, and the table and "Kdy se vyplatí" list in `euctenka-a-moje-eet.html`
 - company name and address: footer and JSON-LD (`Organization`); footer of every content page and `404.html`
 - Facebook link: footer and JSON-LD (`sameAs`); footer of every content page and `404.html`
 - video poster address: `#video-player` style and `og:image`; `og:image` of every content page
