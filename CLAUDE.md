@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Static landing page for eÚčtenka (a Czech point-of-sale app with EET 2.0 support), served at https://euctenka.cz. The site is hand-written files in `public/`: the landing page `index.html`, four content pages with their shared `pages.css` (see **Content pages**), the `404.html` error page, favicon files, the video poster, `robots.txt`, `sitemap.xml` and two ownership files for search engines (see **Search engines**). There is no build step, package manifest, linter, or test suite: what is in `public/` is what gets served.
+Static landing page for eÚčtenka (a Czech point-of-sale app with EET 2.0 support), served at https://euctenka.cz. The site is hand-written files in `public/`: the landing page `index.html`, ten content pages with their shared `pages.css` (see **Content pages**), the `404.html` error page, favicon files, the video poster, `robots.txt`, `sitemap.xml` and two ownership files for search engines (see **Search engines**). There is no build step, package manifest, linter, or test suite: what is in `public/` is what gets served.
 
 ## Commands
 
@@ -31,7 +31,7 @@ The site is the `euctenka-landing` Hosting site inside the `euctenka` Firebase p
 - Dotfiles under `public/` are not deployed.
 - `/doporucena-zarizeni` was a page of the previous site on this domain and still has old links pointing at it. It is a content page again, so keep that address.
 - A redirect from an address that may get its own page again must use `"type": 302`. Browsers keep a 301 and stop asking the server: from 5 to 19 October 2026 `/doporucena-zarizeni` was a 301 to `/`, and browsers that followed it kept showing the home page after the content page went live.
-- Firebase serves `public/404.html` with status 404 for any address that has no file. It is built like the content pages (nav, footer, `pages.css`) and links to the home page, the four content pages and `/#podpora`. It has `noindex` and no canonical, description, share tags or structured data, and it stays out of the sitemap. Its links and stylesheet use absolute `/…` paths because it can be served at any depth.
+- Firebase serves `public/404.html` with status 404 for any address that has no file. It is built like the content pages (nav, footer, `pages.css`) and links to the home page, the four main content pages and `/#podpora`. It has `noindex` and no canonical, description, share tags or structured data, and it stays out of the sitemap. Its links and stylesheet use absolute `/…` paths because it can be served at any depth.
 
 ## Search engines
 
@@ -72,7 +72,7 @@ Everything except the favicons and the video poster is inline: one `<style>` blo
 - store links: hero, `#stahnout` and JSON-LD (`installUrl`); the download block of every content page and the first paragraph of `doporucena-zarizeni.html`
 - portal link: nav, feature grid, footer; nav and footer of every content page and `404.html`
 - price: hero lead, `#cena` and JSON-LD (`offers`); the table and `#cena` in `euctenka-a-moje-eet.html`
-- licence per IČO, not per DIČ: `#cena`, the two-firms section, the licence feature and the FAQ (with its `FAQPage` copy); `doporucena-zarizeni.html`, `pro-koho.html`, and the table and "Kdy se vyplatí" list in `euctenka-a-moje-eet.html`
+- licence per IČO, not per DIČ: `#cena`, the two-firms section, the licence feature and the FAQ (with its `FAQPage` copy); `doporucena-zarizeni.html`, the business-type pages, and the table and "Kdy se vyplatí" list in `euctenka-a-moje-eet.html`
 - company name and address: footer and JSON-LD (`Organization`); footer of every content page and `404.html`
 - Facebook link: footer and JSON-LD (`sameAs`); footer of every content page and `404.html`
 - video poster address: `#video-player` style and `og:image`; `og:image` of every content page
@@ -82,15 +82,17 @@ Nav, footer and button links are in-page anchors to section ids (`#funkce`, `#ee
 
 ## Content pages
 
-Four pages sit next to the landing page. It links to them from the footer, the "Pro koho" chips, the `#eet` lead, the printing feature and the last FAQ item:
+Four main pages sit next to the landing page. It links to them from the footer, the `#eet` lead, the printing feature and the last FAQ item:
 
 - `eet-2-0.html`: who EET 2.0 applies to, the dates and how to start
-- `pro-koho.html`: one section per business type. The chips on the landing page link to its section ids (`restaurace`, `kavarny`, `penziony`, `stanky`, `remeslnici`, `obchody`).
+- `pro-koho.html`: overview of the business types and the four ways of selling. Its cards for the six business pages keep the ids of the sections the page used to have (`restaurace`, `kavarny`, `penziony`, `stanky`, `remeslnici`, `obchody`), so old `/pro-koho#…` links still land on the right card.
 - `doporucena-zarizeni.html`: phones, tablets, printers and payment terminals
 - `euctenka-a-moje-eet.html`: comparison with MOJE eet, the Financial Administration's free web app
 
-They have no script. Each one repeats by hand the landing page's head tags (with its own title, description and canonical), nav and footer, and adds a `BreadcrumbList` JSON-LD block, a "Další čtení" block linking the other three and a download block with the store links. A new page needs all of that, a sitemap entry and a link from the other pages.
+Six business-type pages sit under `pro-koho` and are linked from it and from the "Pro koho" chips on the landing page: `pokladna-pro-restauraci`, `pokladna-pro-kavarnu`, `pokladna-pro-penzion`, `eet-pokladna-na-stanek`, `eet-pokladna-pro-remeslniky` and `pokladna-pro-obchod`. Their addresses, titles and h1s follow what people search for: "pokladna pro restauraci" or "pokladna do obchodu" for restaurants, cafés, shops and guesthouses, but "eet pokladna pro řemeslníky", "eet pokladna do kadeřnického salonu" and "eet pokladna pro stánkaře" for the two types that need a till only because of EET (Seznam suggestions, October 2026), so those two pages start with "EET pokladna". Each has a "Jak začít" list, a "Další obory" row of chips linking the other five, and a three-level breadcrumb through "Pro koho". They leave out the price and the EET 2.0 dates on purpose and link to `/#cena` and `/eet-2-0` instead, so those repeated facts do not gain six more places. Competitors' pages for business types (Dotykačka, Storyous, October 2026) promise stock, reservations, loyalty, daily menus and delivery apps; eÚčtenka's pages do not, because the landing page does not.
 
-**`pages.css`.** The shared stylesheet. It repeats the palette (both dark copies), base rules, nav, buttons, store buttons and footer from the `<style>` block of `index.html`: change both together. It is cached for a year, so the pages link it as `/pages.css?v=1`. Once it is live, raise that number in all four pages and `404.html` with every change to the file. Under 640px a table stacks into one block per row and each cell takes its column name from `data-label`, so a new row needs the attribute on every cell.
+They have no script. Each one repeats by hand the landing page's head tags (with its own title, description and canonical), nav and footer, and adds a `BreadcrumbList` JSON-LD block, a "Další čtení" block linking the main pages and a download block with the store links. A new page needs all of that, a sitemap entry and a link from the other pages.
 
-**Where the facts come from.** Everything about the law (who records, exemptions, EET OFF, dates, the tax discount, MOJE eet) is taken from the Financial Administration's site `https://eet.gov.cz` as it read on 5 October 2026. The two pages that depend on it most show that date in a "Stav k …" line under the heading: update the line when the text is re-checked. Everything about the app repeats the landing page, except "prodej použitého zboží" on `pro-koho.html`, which comes from the Google Play listing. The devices page names no printer models because none were confirmed. On the comparison page, state about MOJE eet only what `eet.gov.cz` says and mark the rest "neuvedeno"; the app is due on 1 December 2026 and the page needs a second look once it is out.
+**`pages.css`.** The shared stylesheet. It repeats the palette (both dark copies), base rules, nav, buttons, store buttons and footer from the `<style>` block of `index.html`: change both together. It is cached for a year, so the pages link it as `/pages.css?v=1`. Once it is live, raise that number in every content page and `404.html` with every change to the file. Under 640px a table stacks into one block per row and each cell takes its column name from `data-label`, so a new row needs the attribute on every cell.
+
+**Where the facts come from.** Everything about the law (who records, exemptions, EET OFF, dates, the tax discount, MOJE eet) is taken from the Financial Administration's site `https://eet.gov.cz` as it read on 5 October 2026. The two pages that depend on it most show that date in a "Stav k …" line under the heading: update the line when the text is re-checked. Everything about the app repeats the landing page, except "prodej použitého zboží" on `pokladna-pro-obchod.html`, which comes from the Google Play listing. The devices page names no printer models because none were confirmed. On the comparison page, state about MOJE eet only what `eet.gov.cz` says and mark the rest "neuvedeno"; the app is due on 1 December 2026 and the page needs a second look once it is out.
