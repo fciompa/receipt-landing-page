@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Static landing page for eÚčtenka (a Czech point-of-sale app with EET 2.0 support), served at https://euctenka.cz. The site is hand-written files in `public/`: the landing page `index.html`, ten content pages with their shared `pages.css` (see **Content pages**), the `404.html` error page, favicon files, the video poster, `robots.txt`, `sitemap.xml` and two ownership files for search engines (see **Search engines**). There is no build step, package manifest, linter, or test suite: what is in `public/` is what gets served.
+Static landing page for eÚčtenka (a Czech point-of-sale app with EET 2.0 support), served at https://euctenka.cz. The site is hand-written files in `public/`: the landing page `index.html`, ten content pages with their shared `pages.css` (see **Content pages**), the `404.html` error page, the shared `attribution.js` (see **Ad attribution**), favicon files, the video poster, `robots.txt`, `sitemap.xml` and two ownership files for search engines (see **Search engines**). There is no build step, package manifest, linter, or test suite: what is in `public/` is what gets served.
 
 ## Commands
 
@@ -46,7 +46,7 @@ The site is the `euctenka-landing` Hosting site inside the `euctenka` Firebase p
 
 ## `public/index.html`
 
-Everything except the favicons and the video poster is inline: one `<style>` block in the head, the markup, and one `<script>` block at the end of the body. Icons are inline SVG. The only third-party requests are Google Fonts on load and YouTube after a click.
+Everything except the favicons and the video poster is inline: one `<style>` block in the head, the markup, and one `<script>` block at the end of the body, followed by the shared `/attribution.js` (see **Ad attribution**). Icons are inline SVG. The only third-party requests are Google Fonts on load and YouTube after a click.
 
 **Video poster.** The poster is `public/video-poster.jpg`, set as a `background-image` in the inline `style` of the `#video-player` link. Keep it on the link rather than in the `.video` rule: after a click the script replaces the link with a new `div.video` that holds the player, and the poster must not show behind it. The same file is the `og:image`. To replace the picture, save it under a new filename and update both places, because the old name is cached for a year. When the page is opened outside the site (from disk, or in the mockup viewer) the file is not found and the box shows the plain band colour.
 
@@ -91,8 +91,19 @@ Four main pages sit next to the landing page. It links to them from the footer, 
 
 Six business-type pages sit under `pro-koho` and are linked from it and from the "Pro koho" chips on the landing page: `pokladna-pro-restauraci`, `pokladna-pro-kavarnu`, `pokladna-pro-penzion`, `eet-pokladna-na-stanek`, `eet-pokladna-pro-remeslniky` and `pokladna-pro-obchod`. Their addresses, titles and h1s follow what people search for: "pokladna pro restauraci" or "pokladna do obchodu" for restaurants, cafés, shops and guesthouses, but "eet pokladna pro řemeslníky", "eet pokladna do kadeřnického salonu" and "eet pokladna pro stánkaře" for the two types that need a till only because of EET (Seznam suggestions, October 2026), so those two pages start with "EET pokladna". Each has a "Jak začít" list, a "Další obory" row of chips linking the other five, and a three-level breadcrumb through "Pro koho". They leave out the price and the EET 2.0 dates on purpose and link to `/#cena` and `/eet-2-0` instead, so those repeated facts do not gain six more places. Competitors' pages for business types (Dotykačka, Storyous, October 2026) promise stock, reservations, loyalty, daily menus and delivery apps; eÚčtenka's pages do not, because the landing page does not.
 
-They have no script. Each one repeats by hand the landing page's head tags (with its own title, description and canonical), nav and footer, and adds a `BreadcrumbList` JSON-LD block, a "Další čtení" block linking the main pages and a download block with the store links. A new page needs all of that, a sitemap entry and a link from the other pages.
+Their only script is the shared `/attribution.js`. Each one repeats by hand the landing page's head tags (with its own title, description and canonical), nav and footer, and adds a `BreadcrumbList` JSON-LD block, a "Další čtení" block linking the main pages and a download block with the store links. A new page needs all of that, the `attribution.js` tag before `</body>`, a sitemap entry and a link from the other pages.
 
 **`pages.css`.** The shared stylesheet. It repeats the palette (both dark copies), base rules, nav, buttons, store buttons and footer from the `<style>` block of `index.html`: change both together. It is cached for a year, so the pages link it as `/pages.css?v=1`. Once it is live, raise that number in every content page and `404.html` with every change to the file. Under 640px a table stacks into one block per row and each cell takes its column name from `data-label`, so a new row needs the attribute on every cell.
 
 **Where the facts come from.** Everything about the law (who records, exemptions, EET OFF, dates, the tax discount, MOJE eet) is taken from the Financial Administration's site `https://eet.gov.cz` as it read on 5 October 2026. The two pages that depend on it most show that date in a "Stav k …" line under the heading: update the line when the text is re-checked. Everything about the app repeats the landing page, except "prodej použitého zboží" on `pokladna-pro-obchod.html`, which comes from the Google Play listing. The devices page names no printer models because none were confirmed. On the comparison page, state about MOJE eet only what `eet.gov.cz` says and mark the rest "neuvedeno"; the app is due on 1 December 2026 and the page needs a second look once it is out.
+
+## Ad attribution
+
+The site sets no cookies and stores nothing in the browser (no `localStorage` either), so it needs no consent banner. Keep it that way: no Google tag, no analytics that set cookies. Ads are attributed from the address alone, by `public/attribution.js`, which every page (`index.html`, the content pages and `404.html`) loads with `<script src="/attribution.js?v=1" defer>` just before `</body>`.
+
+- Paid ads open the page with `utm_*` parameters (the Google Ads final URL suffix; Sklik's UTM option) and Google Ads adds a `gclid`. Without any of them the script does nothing.
+- It writes them into the Google Play links as the `referrer` parameter. Play Console shows store listing acquisitions by UTM, and the app can read the whole string, `gclid` included, through the Play Install Referrer API.
+- App Store links get `pt` (the account's provider token, the `APP_STORE_PT` constant) and a `ct` campaign token of at most 40 characters built from source, campaign and ad group. App Store Connect shows downloads by `ct`. While `APP_STORE_PT` is empty the App Store links stay untouched.
+- Links to other pages of the site get the same parameters, because the address is the only thing that carries them from page to page. In-page anchors, other sites and files are left alone.
+- The file is cached for a year like `pages.css`: raise `?v=` in every page with every change to it.
+
