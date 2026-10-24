@@ -20,7 +20,7 @@
 (function () {
   // App Store Connect → Analytics → Acquisition → Campaigns → "Generate a campaign link": the
   // number after pt= in the generated link.
-  var APP_STORE_PT = '';
+  var APP_STORE_PT = '128101608';
 
   var KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term', 'gclid'];
   var params = new URLSearchParams(location.search);
